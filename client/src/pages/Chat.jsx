@@ -448,7 +448,7 @@ export default function Chat() {
                                 <img src="/avatars/avatar-boy.png" alt="Avatar" className="w-16 h-16 rounded-full avatar-cyber" />
                             </div>
                             <h2 className="text-2xl font-bold gradient-text mb-2">Ready to Connect?</h2>
-                            <p className="text-gray-400 mb-6">Meet random Thaparites anonymously.</p>
+                            <p className="text-gray-400 mb-6">Meet random people anonymously.</p>
                             <button onClick={startMatching} className="btn-primary w-full py-4 cyber-border">Start Matching</button>
                         </motion.div>
                     </div>

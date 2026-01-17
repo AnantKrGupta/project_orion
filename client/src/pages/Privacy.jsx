@@ -22,10 +22,10 @@ export default function Privacy() {
                     </div>
 
                     <div className="card">
-                        <h2 className="text-xl font-semibold text-green-400 mb-2">✅ Thapar-Only Access</h2>
+                        <h2 className="text-xl font-semibold text-green-400 mb-2">✅ Verified Users Only</h2>
                         <p className="text-gray-400">
-                            Only verified @thapar.edu email addresses can access the platform.
-                            This ensures a safe community of Thapar students only.
+                            Only verified email addresses can access the platform.
+                            This ensures a safe community.
                         </p>
                     </div>
 

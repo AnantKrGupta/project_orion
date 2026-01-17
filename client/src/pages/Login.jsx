@@ -46,7 +46,7 @@ export default function Login() {
     };
 
     const features = [
-        { icon: MessageCircle, title: 'Anonymous Chat', desc: 'Connect with random Thaparites', color: 'from-cyan-500 to-blue-500' },
+        { icon: MessageCircle, title: 'Anonymous Chat', desc: 'Connect with random people', color: 'from-cyan-500 to-blue-500' },
         { icon: Shield, title: 'End-to-End Encrypted', desc: 'Your messages are private', color: 'from-green-500 to-emerald-500' },
         { icon: Users, title: 'Make Friends', desc: 'Find your vibe and connect', color: 'from-purple-500 to-pink-500' },
     ];
@@ -69,9 +69,9 @@ export default function Login() {
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center gap-2 mb-2">
                         <Sparkles className="w-8 h-8 text-cyan-400" />
-                        <h1 className="text-4xl font-black gradient-text">Thapar Chat</h1>
+                        <h1 className="text-4xl font-black gradient-text">PopTalk</h1>
                     </div>
-                    <p className="text-gray-400">Where Thaparites connect anonymously</p>
+                    <p className="text-gray-400">Chat anonymously, make friends</p>
                 </div>
 
                 {/* Tabs */}
@@ -79,8 +79,8 @@ export default function Login() {
                     <button
                         onClick={() => { setActiveTab('returning'); setLocalError(''); }}
                         className={`flex-1 py-3 rounded-lg font-semibold transition-all ${activeTab === 'returning'
-                                ? 'bg-purple-600 text-white'
-                                : 'text-gray-400 hover:text-white'
+                            ? 'bg-purple-600 text-white'
+                            : 'text-gray-400 hover:text-white'
                             }`}
                     >
                         Returning User
@@ -88,8 +88,8 @@ export default function Login() {
                     <button
                         onClick={() => { setActiveTab('new'); setLocalError(''); }}
                         className={`flex-1 py-3 rounded-lg font-semibold transition-all ${activeTab === 'new'
-                                ? 'bg-purple-600 text-white'
-                                : 'text-gray-400 hover:text-white'
+                            ? 'bg-purple-600 text-white'
+                            : 'text-gray-400 hover:text-white'
                             }`}
                     >
                         New User
@@ -120,7 +120,7 @@ export default function Login() {
                     >
                         <div className="text-center mb-4">
                             <Mail className="w-12 h-12 text-purple-400 mx-auto mb-2" />
-                            <p className="text-gray-400 text-sm">Login with your Thapar email & password</p>
+                            <p className="text-gray-400 text-sm">Login with your email & password</p>
                         </div>
 
                         <div>
@@ -188,7 +188,7 @@ export default function Login() {
                             <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <Shield className="w-8 h-8 text-purple-400" />
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-2">Welcome to Thapar Chat!</h3>
+                            <h3 className="text-xl font-bold text-white mb-2">Welcome to PopTalk!</h3>
                             <p className="text-gray-400 text-sm">
                                 Sign in with your @thapar.edu email to get started.
                                 <br />

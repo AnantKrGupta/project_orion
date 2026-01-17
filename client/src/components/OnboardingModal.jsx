@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Lock, Shield, Users, MessageCircle, X } from 'lucide-react';
 
-const ONBOARDING_KEY = 'thapar_chat_onboarding_seen';
+const ONBOARDING_KEY = 'poptalk_onboarding_seen';
 
 export default function OnboardingModal() {
     const [isOpen, setIsOpen] = useState(false);
@@ -23,8 +23,8 @@ export default function OnboardingModal() {
         },
         {
             icon: Users,
-            title: 'Thapar Only',
-            description: 'Only verified @thapar.edu students can access this platform. Your community, your space.',
+            title: 'Verified Users',
+            description: 'Only verified users can access this platform. Your community, your space.',
             color: 'from-blue-500 to-indigo-500'
         },
         {

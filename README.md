@@ -1,12 +1,12 @@
-# 💬 Thapar Chat
+# 💬 PopTalk
 
 <div align="center">
 
-![Thapar Chat Banner](https://img.shields.io/badge/Thapar-Chat-purple?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0ibTMgMjEgMS45LTUuN2ExOC41IDE4LjUgMCAwIDEgMS44LTMuM0g4IiAvPjxwYXRoIGQ9Ik04IDguOVY3YTQgNCAwIDAgMSA0LTQiIC8+PHBhdGggZD0ibTUgNCA1IDUiIC8+PC9zdmc+)
+![PopTalk Banner](https://img.shields.io/badge/Pop-Talk-purple?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0ibTMgMjEgMS45LTUuN2ExOC41IDE4LjUgMCAwIDEgMS44LTMuM0g4IiAvPjxwYXRoIGQ9Ik04IDguOVY3YTQgNCAwIDAgMSA0LTQiIC8+PHBhdGggZD0ibTUgNCA1IDUiIC8+PC9zdmc+)
 
-**Anonymous chat platform exclusively for Thapar University students**
+**Anonymous chat platform - Connect, chat, and make friends**
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-client--eight--self.vercel.app-00C7B7?style=for-the-badge)](https://client-eight-self.vercel.app)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-poptalk.me-00C7B7?style=for-the-badge)](https://poptalk.me)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 </div>
@@ -23,7 +23,7 @@
 All chat messages are encrypted using **Web Crypto API**. Only you and your chat partner can read messages.
 
 ### 🎭 Anonymous Matching
-Get matched with random Thaparites. Chat anonymously and reveal identities when you're ready.
+Get matched with random people. Chat anonymously and reveal identities when you're ready.
 
 ### 👥 Friend System
 Found someone cool? Send a friend request to stay connected forever.
@@ -34,11 +34,11 @@ Found someone cool? Send a friend request to stay connected forever.
 ### 📱 Modern UI
 Beautiful dark theme with glassmorphism, smooth animations, and mobile-first design.
 
-### 🛡️ Thapar Only
-Only verified `@thapar.edu` emails can access. Your community, your space.
+### 🛡️ Verified Users Only
+Only verified email addresses can access. Your community, your space.
 
 ### 📝 Social Feed
-Share confessions, thoughts, and connect with the community through posts and comments.
+Share thoughts, confessions, and connect with the community through posts and comments.
 
 </td>
 </tr>
@@ -60,8 +60,9 @@ Share confessions, thoughts, and connect with the community through posts and co
 ![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=socketdotio&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 
-### Authentication & Hosting
+### Services
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Cloudflare](https://img.shields.io/badge/Cloudflare_R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)
 
@@ -70,7 +71,7 @@ Share confessions, thoughts, and connect with the community through posts and co
 ## 📁 Project Structure
 
 ```
-thapar-chat/
+poptalk/
 ├── client/                 # React Frontend
 │   ├── src/
 │   │   ├── components/     # Reusable UI components
@@ -96,13 +97,14 @@ thapar-chat/
 - Node.js 18+
 - MongoDB database
 - Firebase project (for authentication)
+- Cloudflare R2 (for storage, optional)
 
 ### Installation
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/YOUR_USERNAME/thapar-chat.git
-cd thapar-chat
+git clone https://github.com/ANANT-KUMAR-GUPTA/project_orion.git
+cd project_orion
 ```
 
 2. **Set up the server**
@@ -112,7 +114,7 @@ npm install
 
 # Create .env file
 cp .env.example .env
-# Edit .env with your MongoDB URI
+# Edit .env with your credentials
 ```
 
 3. **Set up the client**
@@ -144,6 +146,19 @@ npm run dev
 ```env
 MONGODB_URI=your_mongodb_connection_string
 PORT=3001
+CLIENT_URL=https://poptalk.me
+
+# Cloudflare R2 (optional - falls back to base64 if not set)
+R2_CHAT_ENDPOINT=https://your-account-id.r2.cloudflarestorage.com
+R2_CHAT_ACCESS_KEY=your-access-key
+R2_CHAT_SECRET_KEY=your-secret-key
+R2_CHAT_BUCKET=orion-chat
+
+R2_SOCIAL_ENDPOINT=https://your-account-id.r2.cloudflarestorage.com
+R2_SOCIAL_ACCESS_KEY=your-access-key
+R2_SOCIAL_SECRET_KEY=your-secret-key
+R2_SOCIAL_BUCKET=orion-social
+R2_SOCIAL_PUBLIC_URL=https://cdn.poptalk.me
 ```
 
 ### Client (`client/.env`)
@@ -154,16 +169,18 @@ VITE_FIREBASE_PROJECT_ID=your_project_id
 VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
-VITE_SERVER_URL=http://localhost:3001
+VITE_SERVER_URL=https://api.poptalk.me
 ```
 
 ---
 
-## 📱 Screenshots
+## 🌐 Deployment
 
-<div align="center">
-<i>Coming soon</i>
-</div>
+| Service | URL | Purpose |
+|---------|-----|---------|
+| **Vercel** | `poptalk.me` | Client (React) |
+| **Heroku** | `api.poptalk.me` | Server (Node.js) |
+| **Cloudflare R2** | `cdn.poptalk.me` | Media Storage |
 
 ---
 
@@ -189,7 +206,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Anant Kumar Gupta**
 
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/anantkrgupta)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ANANT-KUMAR-GUPTA)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/anantkrgupta)
 
 ---
@@ -198,6 +215,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **⭐ Star this repo if you like it!**
 
-Made with ❤️ for Thaparites
+Made with ❤️
 
 </div>
