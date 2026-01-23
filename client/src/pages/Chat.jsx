@@ -4,9 +4,10 @@ import { useAuth } from '../contexts/AuthContext';
 import { useOutletContext } from 'react-router-dom';
 import {
     Send, Image, Mic, SkipForward, Lock, Users, Shield,
-    X, Play, Pause, Flag, UserPlus
+    X, Play, Pause, Flag, UserPlus, Video, Loader2
 } from 'lucide-react';
 import { generateKeyPair, exportPublicKey, encrypt, decrypt, importPublicKey } from '../utils/encryption';
+import { uploadChatFile } from '../utils/upload';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'http://localhost:3001';
 
@@ -29,6 +30,8 @@ export default function Chat() {
     const [showEncryptionInfo, setShowEncryptionInfo] = useState(false);
     const [showReportModal, setShowReportModal] = useState(false);
     const [currentRoomId, setCurrentRoomId] = useState(null); // For friend chat room tracking
+    const [isUploading, setIsUploading] = useState(false);
+    const [uploadType, setUploadType] = useState(null); // 'image', 'video', 'audio'
     const messagesEndRef = useRef(null);
     const fileInputRef = useRef(null);
     const typingTimeoutRef = useRef(null);
@@ -293,6 +296,51 @@ export default function Chat() {
         }
     };
 
+    // Handle file upload
+    const handleFileSelect = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file || !partnerPublicKey || !socket) return;
+
+        setIsUploading(true);
+        try {
+            // Upload to R2
+            const result = await uploadChatFile(file);
+
+            // Determine message type
+            let msgType = 'image';
+            if (file.type.startsWith('video/')) msgType = 'video';
+            else if (file.type.startsWith('audio/')) msgType = 'audio';
+
+            // Encrypt the URL and send
+            const encryptedUrl = await encrypt(result.url, partnerPublicKey);
+            socket.emit('send_message', {
+                type: msgType,
+                encrypted: encryptedUrl,
+                roomId: currentRoomId
+            });
+
+            // Add to local messages
+            setMessages(prev => [...prev, { type: msgType, content: result.url, sender: 'me' }]);
+        } catch (err) {
+            console.error('Upload error:', err);
+            setMessages(prev => [...prev, { type: 'system', text: `⚠️ Upload failed: ${err.message}` }]);
+        } finally {
+            setIsUploading(false);
+            setUploadType(null);
+            if (fileInputRef.current) fileInputRef.current.value = '';
+        }
+    };
+
+    // Trigger file input
+    const triggerFileUpload = (type) => {
+        setUploadType(type);
+        const accept = type === 'image' ? 'image/*' : type === 'video' ? 'video/*' : 'audio/*';
+        if (fileInputRef.current) {
+            fileInputRef.current.accept = accept;
+            fileInputRef.current.click();
+        }
+    };
+
     const skipPartner = () => {
         if (socket) {
             socket.emit('skip');
@@ -477,7 +525,30 @@ export default function Chat() {
                                     <div className="flex items-end gap-2 max-w-xs lg:max-w-md">
                                         {msg.sender === 'partner' && <img src={partnerAvatar} alt="Partner" className="w-8 h-8 rounded-full avatar-cyber flex-shrink-0" />}
                                         <div className={`px-4 py-3 ${msg.sender === 'me' ? 'message-sent text-white' : 'message-received text-white'}`}>
-                                            <p>{msg.content}</p>
+                                            {msg.type === 'text' && <p>{msg.content}</p>}
+                                            {msg.type === 'image' && (
+                                                <img
+                                                    src={msg.content}
+                                                    alt="Shared image"
+                                                    className="max-w-full rounded-lg cursor-pointer hover:opacity-90"
+                                                    onClick={() => window.open(msg.content, '_blank')}
+                                                />
+                                            )}
+                                            {msg.type === 'video' && (
+                                                <video
+                                                    src={msg.content}
+                                                    controls
+                                                    className="max-w-full rounded-lg"
+                                                    style={{ maxHeight: '300px' }}
+                                                />
+                                            )}
+                                            {msg.type === 'audio' && (
+                                                <audio
+                                                    src={msg.content}
+                                                    controls
+                                                    className="w-full"
+                                                />
+                                            )}
                                         </div>
                                     </div>
                                 )}
@@ -503,21 +574,62 @@ export default function Chat() {
             {/* Input area */}
             {status === 'matched' && (
                 <div className="relative z-10 bg-dark-800/90 backdrop-blur-xl border-t border-purple-500/20 p-4">
+                    {/* Hidden file input */}
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileSelect}
+                        className="hidden"
+                    />
+
                     <div className="flex items-center gap-2">
+                        {/* Media buttons */}
+                        <div className="flex items-center gap-1">
+                            <button
+                                onClick={() => triggerFileUpload('image')}
+                                disabled={isUploading}
+                                className="p-2.5 text-gray-400 hover:text-purple-400 hover:bg-purple-400/10 rounded-xl transition-all disabled:opacity-50"
+                                title="Send image"
+                            >
+                                <Image size={20} />
+                            </button>
+                            <button
+                                onClick={() => triggerFileUpload('video')}
+                                disabled={isUploading}
+                                className="p-2.5 text-gray-400 hover:text-cyan-400 hover:bg-cyan-400/10 rounded-xl transition-all disabled:opacity-50"
+                                title="Send video"
+                            >
+                                <Video size={20} />
+                            </button>
+                            <button
+                                onClick={() => triggerFileUpload('audio')}
+                                disabled={isUploading}
+                                className="p-2.5 text-gray-400 hover:text-pink-400 hover:bg-pink-400/10 rounded-xl transition-all disabled:opacity-50"
+                                title="Send audio"
+                            >
+                                <Mic size={20} />
+                            </button>
+                        </div>
+
                         <input
                             type="text"
                             value={inputMessage}
                             onChange={handleInputChange}
                             onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                            placeholder="Type a message..."
-                            className="flex-1 bg-dark-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500 border border-purple-500/20"
+                            placeholder={isUploading ? 'Uploading...' : 'Type a message...'}
+                            disabled={isUploading}
+                            className="flex-1 bg-dark-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500 border border-purple-500/20 disabled:opacity-50"
                         />
                         <button
                             onClick={sendMessage}
-                            disabled={!inputMessage.trim()}
+                            disabled={!inputMessage.trim() || isUploading}
                             className="p-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all glow-purple"
                         >
-                            <Send size={20} className="text-white" />
+                            {isUploading ? (
+                                <Loader2 size={20} className="text-white animate-spin" />
+                            ) : (
+                                <Send size={20} className="text-white" />
+                            )}
                         </button>
                     </div>
                     <div className="flex items-center justify-center gap-2 mt-3 text-xs text-gray-500">
